@@ -43,6 +43,7 @@ function getKoalas(){
       // append data to the DOM
       for (let i = 0; i < response.length; i++) {
         console.log(response[i].ready_to_transfer);
+        // ready-to-transfer button should only appear if the value is false
         if(response[i].ready_to_transfer === false) {
           isButton = `<button class="isReady" data-id="${response[i].id}" >Ready for transfer</button>`;
         }else {
@@ -78,11 +79,8 @@ function saveKoala( newKoala ){
 
 function markIsReady(event) {
   event.preventDefault();
-  console.log($(this).data('id'));
   let koalaToTransfer = $(this).data();
-  console.log(koalaToTransfer);
   let koalaID = $(this).data('id');
-  console.log('koala ID is ', koalaID);
   $.ajax({
     method:   'PUT',
     url:      `/koalas/${koalaID}`,
@@ -95,4 +93,4 @@ function markIsReady(event) {
   .catch((err) => {
     console.log('PUT failed ', err);
   })
-}
+}// end markIsReady
