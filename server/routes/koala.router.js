@@ -56,7 +56,7 @@ koalaRouter.put('/:id', (req, res) => {
         SET "ready_to_transfer" = TRUE
         WHERE "id" = ${queryParams};
     `;
-    pool.query(queryText)
+    pools.query(queryText)
     .then((dbRes) => {
         res.sendStatus(204);
     })
