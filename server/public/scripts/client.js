@@ -6,6 +6,7 @@ $( document ).ready( function(){
   setupClickListeners()
   // load existing koalas on page load
   getKoalas();
+  $(document).on('click', '.deleteBtn', onDeleteKoala);
 
 }); // end doc ready
 
@@ -38,6 +39,22 @@ function setupClickListeners() {
     // call saveKoala with the new obejct
     saveKoala( koalaToSend );
   }); 
+}
+function onDeleteKoala(){
+  let koalaId = $(this).parents('tr').data('id');
+  console.log('onDeleteKoala', koalaId);
+  //delete the koala by id
+  $.ajax({
+    method: 'DELETE',
+    url: `/koalas/${koalaId}`
+  })
+  .then((res) => {
+    console.log('DELETE success!');
+    getKoalas();
+  })
+  .catch((err) =>{
+    console.log('DELETE failed', err);
+  });
 }
 
 function getKoalas(){
