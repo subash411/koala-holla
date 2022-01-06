@@ -38,3 +38,15 @@ function saveKoala( newKoala ){
   // ajax call to server to get koalas
  
 }
+function addKoala(koalaToAdd) {
+  $.ajax({
+      type: 'POST',
+      url: '/koala',
+      data: koalaToAdd,
+  }). then(function(response){
+      console.log('Response from server.', response);
+      refreshKoala();
+  }).catch(function(error){
+      alert('unable to add koala')
+  });
+}
