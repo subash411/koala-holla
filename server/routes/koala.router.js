@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const express = require('express');
 const koalaRouter = express.Router();
-const pool = require('../modules/pools');
+const pools = require('../modules/pools');
 
 // DB CONNECTION
 
@@ -16,7 +16,7 @@ koalaRouter.get('/', (req, res) => {
 
     // Send the SQL query to the database
     // This is asynchronous! It is a network request, like AJAX.
-    pool.query(queryText)
+    pools.query(queryText)
         .then((dbRes) => {
             // This function is called when
             // the database query is complete
@@ -33,7 +33,21 @@ koalaRouter.get('/', (req, res) => {
 
 // POST
 
-
+koalaRouter.post('/', (req, res) => {
+    let newKoala =req.body;
+    console.log(`Adding koala`, newKoala);
+    let queryText = `INSERT INTO "koala_hola" ("name", "age", "gender", "ready_to_transfer", "notes")
+                     VALUES ($1, $2, $3, $4, $5);`;
+    pools.query(queryText, [newKoala.name, newKoala.age, newKoala.gender, newKoala.transfer, newKoala.note])
+    .then(result => {
+        res.sendStatus(201);
+    })
+    .catch(error => {
+        console.log((`Error adding new koala`, error));
+        res.sendStatus(500);
+    })                 
+    
+})
 // PUT
 koalaRouter.put('/:id', (req, res) => {
     let queryParams = [req.params.id];
