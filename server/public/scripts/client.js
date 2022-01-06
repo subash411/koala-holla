@@ -25,6 +25,7 @@ function setupClickListeners() {
     // call saveKoala with the new obejct
     saveKoala( koalaToSend );
   }); 
+  $('#viewKoalas').on('click', '.isReady', markIsReady);
 }
 
 function getKoalas(){
@@ -37,6 +38,7 @@ function getKoalas(){
       url: '/koalas'
   }).then(function (response) {
       console.log("GET /koalas response", response);
+      // only make isready button when "ready_to_transfer" is false: <button class="isReady">Ready for transfer</button>
       // append data to the DOM
       for (let i = 0; i < response.length; i++) {
           $('#viewKoalas').append(`
@@ -45,7 +47,7 @@ function getKoalas(){
                   <td>${response[i].name}</td>
                   <td>${response[i].gender}</td>
                   <td>${response[i].age}</td>
-                  <td>${response[i].ready_to_transfer}</td>
+                  <td >${response[i].ready_to_transfer}<button class="isReady" data-id="${response[i].id}" >Ready for transfer</button></td>
                   <td>${response[i].notes}</td>
                   <td>
                       <button class="deleteBtn">
@@ -65,4 +67,22 @@ function saveKoala( newKoala ){
   console.log( 'in saveKoala', newKoala );
   // ajax call to server to get koalas
  
+}
+
+function markIsReady(event) {
+  event.preventDefault();
+  console.log($(this).data('id'));
+  let koalaID = $(this).data('id');
+  console.log('koala ID is ', koalaID);
+  $.ajax({
+    method:   'PUT',
+    url:      `/koalas/${koalaID}`
+  })
+  .then((res) => {
+    console.log('PUT success');
+    getKoalas();
+  })
+  .catch((err) => {
+    console.log('PUT failed ', err);
+  })
 }

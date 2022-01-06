@@ -1,3 +1,4 @@
+const { Router } = require('express');
 const express = require('express');
 const koalaRouter = express.Router();
 const pool = require('../modules/pools');
@@ -34,7 +35,14 @@ koalaRouter.get('/', (req, res) => {
 
 
 // PUT
-
+koalaRouter.put('/:id', (req, res) => {
+    console.log('id is ', req.params.id);
+    console.log('req.body is ', req.body);
+    let queryText = `
+    
+    `
+    //pool.query(queryText)
+})
 
 // DELETE
 
