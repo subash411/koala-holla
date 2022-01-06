@@ -39,15 +39,22 @@ function getKoalas(){
   }).then(function (response) {
       console.log("GET /koalas response", response);
       // only make isready button when "ready_to_transfer" is false: <button class="isReady">Ready for transfer</button>
+      let isButton = ``;
       // append data to the DOM
       for (let i = 0; i < response.length; i++) {
+        console.log(response[i].ready_to_transfer);
+        if(response[i].ready_to_transfer === false) {
+          isButton = `<button class="isReady" data-id="${response[i].id}" >Ready for transfer</button>`;
+        }else {
+          isButton = ``;
+        }
           $('#viewKoalas').append(`
               <tr>
                   <td>${response[i].id}</td>
                   <td>${response[i].name}</td>
                   <td>${response[i].gender}</td>
                   <td>${response[i].age}</td>
-                  <td >${response[i].ready_to_transfer}<button class="isReady" data-id="${response[i].id}" >Ready for transfer</button></td>
+                  <td >${response[i].ready_to_transfer}${isButton}</td>
                   <td>${response[i].notes}</td>
                   <td>
                       <button class="deleteBtn">
@@ -72,11 +79,14 @@ function saveKoala( newKoala ){
 function markIsReady(event) {
   event.preventDefault();
   console.log($(this).data('id'));
+  let koalaToTransfer = $(this).data();
+  console.log(koalaToTransfer);
   let koalaID = $(this).data('id');
   console.log('koala ID is ', koalaID);
   $.ajax({
     method:   'PUT',
-    url:      `/koalas/${koalaID}`
+    url:      `/koalas/${koalaID}`,
+    data:     koalaToTransfer
   })
   .then((res) => {
     console.log('PUT success');
