@@ -15,13 +15,26 @@ function setupClickListeners() {
     // get user input and put in an object
     // NOT WORKING YET :(
     // using a test object
-    let koalaToSend = {
-      name: 'testName',
-      age: 'testName',
-      gender: 'testName',
-      readyForTransfer: 'testName',
-      notes: 'testName',
-    };
+    let koalaToSend= {
+      name: $('#nameIn').val(),
+      age: $('#ageIn').val(),
+      gender: $('#genderIn').val(),
+      transfer: $('#readyForTransferIn').val(),
+      note: $('#notesIn').val()
+    }
+    
+      $.ajax({
+          type: 'POST',
+          url: '/koalas',
+          data: koalaToSend,
+      }). then(function(response){
+        $('#nameIn').val(''),
+        $('#ageIn').val(''),
+        $('#genderIn').val(''),
+        $('#readyForTransferIn').val(''),
+         $('#notesIn').val('')
+         getKoalas();
+      });
     // call saveKoala with the new obejct
     saveKoala( koalaToSend );
   }); 
@@ -41,7 +54,6 @@ function getKoalas(){
       for (let i = 0; i < response.length; i++) {
           $('#viewKoalas').append(`
               <tr>
-                  <td>${response[i].id}</td>
                   <td>${response[i].name}</td>
                   <td>${response[i].gender}</td>
                   <td>${response[i].age}</td>
@@ -68,27 +80,4 @@ function saveKoala( newKoala ){
   // ajax call to server to get koalas
  
 }
-function addKoala(evt) {
-evt.preventDefault();
 
-let koalaToAdd= {
-  name: $('#nameIn').val(),
-  age: $('#ageIn').val(),
-  gender: $('#genderIn').val(),
-  transfer: $('#readyForTransferIn').val(),
-  note: $('#notesIn').val()
-}
-
-  $.ajax({
-      type: 'POST',
-      url: '/koala',
-      data: koalaToAdd,
-  }). then(function(response){
-    $('#nameIn').val(''),
-    $('#ageIn').val(''),
-    $('#genderIn').val(''),
-    $('#readyForTransferIn').val(''),
-     $('#notesIn').val('')
-     getKoalas();
-  });
-}
