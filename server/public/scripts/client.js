@@ -38,7 +38,6 @@ function getKoalas(){
       url: '/koalas'
   }).then(function (response) {
       console.log("GET /koalas response", response);
-      // only make isready button when "ready_to_transfer" is false: <button class="isReady">Ready for transfer</button>
       let isButton = ``;
       // append data to the DOM
       for (let i = 0; i < response.length; i++) {
@@ -81,6 +80,7 @@ function markIsReady(event) {
   event.preventDefault();
   let koalaToTransfer = $(this).data();
   let koalaID = $(this).data('id');
+  // ajax request to make ready for transfer
   $.ajax({
     method:   'PUT',
     url:      `/koalas/${koalaID}`,
