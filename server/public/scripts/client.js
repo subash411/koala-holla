@@ -31,7 +31,35 @@ function getKoalas(){
   console.log( 'in getKoalas' );
   // ajax call to server to get koalas
   
-} // end getKoalas
+  $("#viewKoalas").empty();
+  $.ajax({
+      type: 'GET',
+      url: '/koalas'
+  }).then(function (response) {
+      console.log("GET /koalas response", response);
+      // append data to the DOM
+      for (let i = 0; i < response.length; i++) {
+          $('#viewKoalas').append(`
+              <tr>
+                  <td>${response[i].id}</td>
+                  <td>${response[i].name}</td>
+                  <td>${response[i].gender}</td>
+                  <td>${response[i].age}</td>
+                  <td>${response[i].ready_to_transfer}</td>
+                  <td>${response[i].notes}</td>
+                  <td>
+                      <button class="deleteBtn">
+                          ❌
+                      </button>
+                  </td>
+              </tr>
+          `);
+      }
+  });
+
+
+
+} // end getKoalasz
 
 function saveKoala( newKoala ){
   console.log( 'in saveKoala', newKoala );
