@@ -51,9 +51,10 @@ koalaRouter.post('/', (req, res) => {
 // PUT
 koalaRouter.put('/:id', (req, res) => {
     let queryParams = [req.params.id];
+    console.log('Toggling ready at id ', queryParams);
     let queryText = `
     UPDATE "koala_hola"
-        SET "ready_to_transfer" = TRUE
+        SET "ready_to_transfer" = NOT "ready_to_transfer"
         WHERE "id" = ${queryParams};
     `;
     pools.query(queryText)
