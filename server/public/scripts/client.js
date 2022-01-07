@@ -6,6 +6,7 @@ $( document ).ready( function(){
   setupClickListeners()
   // load existing koalas on page load
   getKoalas();
+  $(document).on('click', '.deleteBtn', onDeleteKoala);
 
 }); // end doc ready
 
@@ -40,6 +41,22 @@ function setupClickListeners() {
   }); 
   $('#viewKoalas').on('click', '.isReady', markIsReady);
 }
+function onDeleteKoala(){
+  let koalaId = $(this).parents('tr').data('id');
+  console.log('onDeleteKoala', koalaId);
+  //delete the koala by id
+  $.ajax({
+    method: 'DELETE',
+    url: `/koalas/${koalaId}`
+  })
+  .then((res) => {
+    console.log('DELETE success!');
+    getKoalas();
+  })
+  .catch((err) =>{
+    console.log('DELETE failed', err);
+  });
+}
 
 function getKoalas(){
   console.log( 'in getKoalas' );
@@ -62,7 +79,7 @@ function getKoalas(){
           isButton = ``;
         }
           $('#viewKoalas').append(`
-              <tr>
+              <tr data-id="${response[i].id}" data-koala="$response[i].isKoala">
                   <td>${response[i].name}</td>
                   <td>${response[i].gender}</td>
                   <td>${response[i].age}</td>
