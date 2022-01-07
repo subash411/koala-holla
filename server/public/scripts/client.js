@@ -70,7 +70,7 @@ function getKoalas(){
       // append data to the DOM
       for (let i = 0; i < response.length; i++) {
           $('#viewKoalas').append(`
-              <tr>
+              <tr data-id="${response[i].id}" data-koala="$response[i].isKoala">
                   <td>${response[i].name}</td>
                   <td>${response[i].gender}</td>
                   <td>${response[i].age}</td>
