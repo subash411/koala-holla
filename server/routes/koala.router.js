@@ -12,7 +12,7 @@ const pools = require('../modules/pools');
 // from the database
 koalaRouter.get('/', (req, res) => {
     // Make a SQL query as a string
-    const queryText = 'SELECT * FROM "koala_hola";';
+    const queryText = 'SELECT * FROM "koala_hola" ORDER BY UPPER ("name") ASC ;';
 
     // Send the SQL query to the database
     // This is asynchronous! It is a network request, like AJAX.
