@@ -73,12 +73,6 @@ function onDeleteKoala(){
     }
   })
 
-
-
-
-
-
-
 }
 
 function getKoalas(){
