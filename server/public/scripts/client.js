@@ -44,7 +44,18 @@ function setupClickListeners() {
 function onDeleteKoala(){
   let koalaId = $(this).parents('tr').data('id');
   console.log('onDeleteKoala', koalaId);
-  //delete the koala by id
+
+  Swal.fire({
+    title: 'Do you want to delete this koala?',
+    showDenyButton: true,
+    confirmButtonText: 'DELETE',
+    denyButtonText: `CANCEL`,
+  }).then((result) => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      Swal.fire('Deleted', '', 'success')
+
+        //delete the koala by id
   $.ajax({
     method: 'DELETE',
     url: `/koalas/${koalaId}`
@@ -56,6 +67,18 @@ function onDeleteKoala(){
   .catch((err) =>{
     console.log('DELETE failed', err);
   });
+
+    } else if (result.isDenied) {
+      Swal.fire('Changes are not saved', '', 'info')
+    }
+  })
+
+
+
+
+
+
+
 }
 
 function getKoalas(){

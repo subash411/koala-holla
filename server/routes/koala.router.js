@@ -56,7 +56,7 @@ koalaRouter.put('/:id', (req, res) => {
         SET "ready_to_transfer" = TRUE
         WHERE "id" = ${queryParams};
     `;
-    pool.query(queryText)
+    pools.query(queryText)
     .then((dbRes) => {
         res.sendStatus(204);
     })
@@ -84,5 +84,8 @@ koalaRouter.delete('/:koalaId', (req, res) => {
         console.log('DELETE /koala failed', err);
     });
 })
+
+
+
 
 module.exports = koalaRouter;
