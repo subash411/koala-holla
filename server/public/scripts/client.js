@@ -52,21 +52,24 @@ function getKoalas(){
   }).then(function (response) {
       console.log("GET /koalas response", response);
       let isButton = ``;
+      let isReadyForTransfer = '';
       // append data to the DOM
       for (let i = 0; i < response.length; i++) {
         console.log(response[i].ready_to_transfer);
         // ready-to-transfer button should only appear if the value is false
         if(response[i].ready_to_transfer === false) {
-          isButton = `<button class="isReady" data-id="${response[i].id}" >Ready for transfer</button>`;
+          isReadyForTransfer = 'N';
+          isButton = `<button class="isReady" data-id="${response[i].id}" >Mark ready</button>`;
         }else {
-          isButton = ``;
+          isReadyForTransfer = 'Y';
+          isButton = `<button class="isReady" data-id="${response[i].id}" >Mark not ready </button>`;
         }
           $('#viewKoalas').append(`
               <tr>
                   <td>${response[i].name}</td>
                   <td>${response[i].gender}</td>
                   <td>${response[i].age}</td>
-                  <td >${response[i].ready_to_transfer}${isButton}</td>
+                  <td>${isReadyForTransfer}${isButton}</td>
                   <td>${response[i].notes}</td>
                   <td>
                       <button class="deleteBtn">
